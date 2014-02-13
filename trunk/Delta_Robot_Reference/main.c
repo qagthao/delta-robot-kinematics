@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 //application related
 int choice;
@@ -20,18 +21,43 @@ int main(int argc, char **argv)
 {
 	createMenu();
 
-	while(1) {
+	do {
 		fseek(stdin,0,SEEK_END);
 		printf(">> ");
 		if(fgets(command, 256, stdin) != NULL) {
 			process(command);
 		}
+	} while(!strcmp(command,"-q") && !strcmp(command,"-sq"));
+
+	if(strcmp(command, "-sq")) {
+		//save model parameters then let program end
 	}
+	
 	return 0;
 }
 
-void process(char * instr) {
-	printf("%s", instr);
+void process(char * instr)
+{
+	char *tokens;
+	char params[4][256]; //create an array of strings
+	int i = 0;
+
+	//split the strings into an array of strings
+	tokens = strtok(instr, " ,");
+	while(tokens != NULL) {
+		strcpy(params[i++], tokens);
+		tokens = strtok(NULL, " ,");
+	}
+
+	//process the array
+	if(!strcmp(params[0], "-i")) {
+		printf("Inverse kinematics\n");
+	} else if(!strcmp(params[0], "-f")) {
+		printf("Forward kinematics\n");
+	} else if(!strcmp(params[0], "-m")) {
+		printf("\n\n");
+		createMenu();
+	}
 }
 
 void createMenu()
@@ -95,11 +121,11 @@ void setModelParameters()
 void listCommands()
 {
 	printf("Commands list:\n");
-	printf("%-15s%-60s\n"," -i x, y, z","calculate upper arm angles from end effector's coordinates");
-	printf("%-15s%-60s\n"," -f a1, a2, a3","calculate end effector's coordinates from upper arm angles");
-	printf("%-15s%-60s\n"," -m","show menu");
-	printf("%-15s%-60s\n"," -q","quit without saving model parameters");
-	printf("%-15s%-60s\n"," -sq","save model parameters then quit");
+	printf("%-15s%-60s\n", " -i x, y, z", "calculate upper arm angles from end effector's coordinates");
+	printf("%-15s%-60s\n", " -f a1, a2, a3", "calculate end effector's coordinates from upper arm angles");
+	printf("%-15s%-60s\n", " -m", "show menu");
+	printf("%-15s%-60s\n", " -q", "quit without saving model parameters");
+	printf("%-15s%-60s\n", " -sq", "save model parameters then quit");
 
 	printf("\n\n");
 	createMenu();
