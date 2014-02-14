@@ -264,24 +264,24 @@ void setModelParameters()
 	printf("Base length: ");
 	scanf("%f", &input);
 	if(input >= 0) f = input;
-	else createMenu();
+	else printf("Base length unchanged\n");
 	
 	printf("End effector length: ");
 	scanf("%f", &input);
 	if(input >= 0) e = input;
-	else createMenu();
-	
-	printf("Lower arm length: ");
-	scanf("%f", &input);
-	if(input >= 0) re = input;
-	else createMenu();
+	else printf("End effector length unchanged\n");
 	
 	printf("Upper arm length: ");
 	scanf("%f", &input);
 	if(input >= 0) rf = input;
-	else createMenu();
+	else printf("Upper arm length unchanged\n");
 
-	printf("\n\n");
+	printf("Lower arm length: ");
+	scanf("%f", &input);
+	if(input >= 0) re = input;
+	else printf("Lower arm length unchanged\n");
+	
+	printf("\n");
 	createMenu();
 }
 
