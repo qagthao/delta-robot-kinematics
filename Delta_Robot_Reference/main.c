@@ -14,6 +14,8 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+	 * 
+	 * Reference: http://forums.trossenrobotics.com/tutorials/introduction-129/delta-robot-kinematics-3276/
 */
 
 #include <stdio.h>
@@ -29,6 +31,7 @@ void printModelParameters();
 void setModelParameters();
 void listCommands();
 void process(char *);
+void start();
 
 //Delta robot parameters
 float e = 115.0;     // end effector's side length
@@ -37,8 +40,6 @@ float re = 232.0;	 // lower arm
 float rf = 112.0;	 // upper arm
 
 //TrossenRobotics' delta robot tutorial
-//http://forums.trossenrobotics.com/tutorials/introduction-129/delta-robot-kinematics-3276/
-// trigonometric constants
 float sqrt3;
 float pi;    // PI
 float sin120;
@@ -66,13 +67,7 @@ int main(int argc, char **argv)
 	printf("Delta Robot Kinematics Reference\n\n");
 	createMenu();
 
-	while(1) {
-		fseek(stdin,0,SEEK_END);
-		printf(">> ");
-		if(fgets(command, 256, stdin) != NULL) {
-			process(command);
-		}
-	}
+	start();
 
 	return 0;
 }
@@ -162,6 +157,16 @@ int delta_calcForward(float theta1, float theta2, float theta3, float *x0, float
 
 /* USER INTERFACE FUNCTIONS */
 
+void start() {
+	while(1) {
+		fseek(stdin,0,SEEK_END);
+		printf(">> ");
+		if(fgets(command, 256, stdin) != NULL) {
+			process(command);
+		}
+	}
+}
+
 void process(char * instr)
 {
 	char *tokens;
@@ -237,7 +242,7 @@ void createMenu()
 		break;
 	case 4:
 		printf("\n\n");
-		return;
+		start();
 		break;
 	}
 }
@@ -253,15 +258,28 @@ void printModelParameters()
 
 void setModelParameters()
 {
-	printf("New model parameters:\n");
+	float input;
+	printf("New model parameters (negative no. to return to menu):\n");
+	
 	printf("Base length: ");
-	scanf("%f", &f);
+	scanf("%f", &input);
+	if(input >= 0) f = input;
+	else createMenu();
+	
 	printf("End effector length: ");
-	scanf("%f", &e);
+	scanf("%f", &input);
+	if(input >= 0) e = input;
+	else createMenu();
+	
 	printf("Lower arm length: ");
-	scanf("%f", &re);
+	scanf("%f", &input);
+	if(input >= 0) re = input;
+	else createMenu();
+	
 	printf("Upper arm length: ");
-	scanf("%f", &rf);
+	scanf("%f", &input);
+	if(input >= 0) rf = input;
+	else createMenu();
 
 	printf("\n\n");
 	createMenu();
