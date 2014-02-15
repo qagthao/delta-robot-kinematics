@@ -85,7 +85,6 @@ int delta_calcInverse(float x0, float y0, float z0, float *theta1, float *theta2
 	return status;
 }
 
-
 // inverse kinematics
 // helper functions, calculates angle theta1 (for YZ-pane)
 int delta_calcAngleYZ(float x0, float y0, float z0, float *theta)
